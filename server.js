@@ -3,14 +3,20 @@ const dotenv = require("dotenv"); // require package
 dotenv.config(); // Loads the environment variables from .env
 const express = require('express');
 const mongoose = require("mongoose"); // require package
-const ejs = require("ejs"); // require package
+const methodOverride = require("method-override");
+const morgan = require("morgan");
 
   // Import the Fruit model
 const Fruit = require("./models/fruit.js");
 const app = express();
 
 // Middleware to parse request body
-app.use(express.urlencoded({ extended: false })); // Middleware to parse request body
+app.use(express.urlencoded({ extended: false }));
+// middleware to let us use restful routing
+app.use(methodOverride("_method"));
+// middleware logging tool
+app.use(morgan("dev"));
+
 
 //RESTful Routes
 // Landing page route
@@ -42,7 +48,15 @@ app.get("/fruits/:fruitId", async (req, res) => {
     const foundFruit = await Fruit.findById(req.params.fruitId);
     res.render("fruits/show.ejs", { fruit: foundFruit });
   });
+//delete this fruit
+app.delete("/fruits/:fruitId", (req, res) => {
+  app.delete("/fruits/:fruitId", async (req, res) => {
+    await Fruit.findByIdAndDelete(req.params.fruitId);
+    res.redirect("/fruits");
+  });
   
+});
+
   
  // Connect to MongoDB using the connection string in the .env file
 mongoose.connect(process.env.MONGODB_URI);

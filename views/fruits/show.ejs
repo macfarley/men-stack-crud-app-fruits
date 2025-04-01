@@ -7,13 +7,16 @@
   </head>
   <body>
     <h1><%= fruit.name %></h1>
-    <!-- Conditional rendering based on fruit's readiness -->
     <% if (fruit.isReadyToEat) { %>
       <p>This fruit is ready to eat!</p>
     <% } else { %>
       <p>This fruit is not ready to eat!</p>
     <% } %>
+    <form action="/fruits/<%=fruit._id%>?_method=DELETE" method="POST">
+      <button type="submit">Delete <%= fruit.name %></button>
+    </form>
     <a href="/fruits/">Back to Fruits</a>
+    <a href="/fruits/new"> Add A New Fruit</a>
 
   </body>
 </html>
