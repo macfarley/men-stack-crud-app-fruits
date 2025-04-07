@@ -27,7 +27,7 @@ const Fruit = require("./models/fruit.js");
 
 // Routes
 app.get("/", async (req, res) => {
-    res.render("index.ejs");
+    res.render("index.ejs", );
   });
 
 app.get("/fruits/new", (req, res) => {
@@ -106,10 +106,7 @@ app.get("/fruits/:fruitId/edit", async (req, res) => {
     });
   });
 
-
-
-
-
+  
 app.listen(3000, () => {
   console.log('Listening on port 3000');
 });
