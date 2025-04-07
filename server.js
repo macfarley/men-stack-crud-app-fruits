@@ -1,21 +1,20 @@
 const dotenv = require("dotenv"); // require package
 dotenv.config(); // Loads the environment variables from .env file
-
-
 // We begin by loading Express
 const express = require('express');
-const mongoose = require("mongoose"); // require package
-const methodOverride = require("method-override"); // new
-const morgan = require("morgan"); //new
-
+const mongoose = require("mongoose");
+const methodOverride = require("method-override");
+const morgan = require("morgan"); 
+const path = require("path");
 
 
 const app = express();
 
 // Add Middleware
 app.use(express.urlencoded({ extended: false }));
-app.use(methodOverride("_method")); // new
-app.use(morgan("dev")); //new
+app.use(methodOverride("_method"));
+app.use(morgan("dev"));
+app.use(express.static(path.join(__dirname, "public")));
 
 
 // Connect to MongoDB/Mongoose
@@ -99,6 +98,15 @@ app.get("/fruits", async (req, res) => {
     res.render("fruits/index.ejs", { fruits: allFruits });
 
   });
+
+app.get("/fruits/:fruitId/edit", async (req, res) => {
+    const foundFruit = await Fruit.findById(req.params.fruitId);
+    res.render("fruits/edit.ejs", {
+      fruit: foundFruit,
+    });
+  });
+
+
 
 
 
